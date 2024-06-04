@@ -1727,7 +1727,7 @@ class Twitch:
             drops.sort(key=lambda d: d.remaining_minutes)
             return drops[0]
         return None
-
+    @retry(wait=wait_exponential(multiplier=1, min=4, max=128))
     async def get_live_streams(self, game: Game, *, limit: int = 30) -> list[Channel]:
         try:
             response = await self.gql_request(
